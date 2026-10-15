@@ -5,7 +5,7 @@ on:
     branches: [main]
 
 jobs:
-  build:
+  clean-package:
     runs-on: ubuntu-latest
 
     steps:
@@ -15,7 +15,14 @@ jobs:
         with:
           python-version: '3.12'
 
-      - run: pip install build
-      - run: rm -rf build dist *.egg-info
-      - run: python -m build
-      - run: ls -l dist
+      - name: Install build tool
+        run: pip install build setuptools
+
+      - name: Clean old build output
+        run: rm -rf build/ dist/ *.egg-info
+
+      - name: Build package
+        run: python -m build
+
+      - name: Show built package
+        run: ls -l dist/
